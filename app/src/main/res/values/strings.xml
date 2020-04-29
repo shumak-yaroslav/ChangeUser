@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ChangeUsers</string>
+    <string name="app_description">You should allow ChangeUsers to lock the screen!</string>
+</resources>

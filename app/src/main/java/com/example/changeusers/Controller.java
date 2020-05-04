@@ -21,6 +21,11 @@ public class Controller extends DeviceAdminReceiver {
     }
 
     @Override
+    public void onUserStarted(@NonNull Context context, @NonNull Intent intent, @NonNull UserHandle startedUser) {
+        Toast.makeText(context,"User has started!",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onUserSwitched(@NonNull Context context, @NonNull Intent intent, @NonNull UserHandle switchedUser) {
         Toast.makeText(context,"Switched!",Toast.LENGTH_SHORT).show();
     }

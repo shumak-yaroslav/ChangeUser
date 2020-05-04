@@ -11,6 +11,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -18,6 +19,7 @@ import android.os.UserHandle;
 import android.os.UserManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.List;
@@ -30,19 +32,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+Button sw;
+RelativeLayout rel;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        switchUser();
+        sw = findViewById(R.id.sw);
+        rel = findViewById(R.id.rel);
 
+        sw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchUser();
+            }
+        });
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     private void switchUser() {
+
         DevicePolicyManager dpm =  (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         ComponentName admin = new ComponentName(MainActivity.this,Controller.class);
 
@@ -58,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+
         if (dpm.isDeviceOwnerApp(admin.getPackageName())) {  // Return false if app run as secondary user
+            rel.setBackgroundColor(Color.BLUE);
             List<UserHandle> secondaryUsers = dpm.getSecondaryUsers(admin);
             if (!secondaryUsers.isEmpty()) {  // Switch to secondary user
                 dpm.switchUser(admin, secondaryUsers.get(0));
@@ -69,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
                     dpm.setAffiliationIds(admin, identifiers);
                 }
                 PersistableBundle adminExtras = new PersistableBundle();
+
                 adminExtras.putString("AFFILIATION_ID_KEY", identifiers.iterator().next());
+
                 try {
                     UserHandle newUser = dpm.createAndManageUser(
                             admin,
@@ -77,14 +93,20 @@ public class MainActivity extends AppCompatActivity {
                             admin,
                             adminExtras,
                             DevicePolicyManager.MAKE_USER_EPHEMERAL |
-                                    DevicePolicyManager.SKIP_SETUP_WIZARD);
+                                    DevicePolicyManager.SKIP_SETUP_WIZARD |
+                                    DevicePolicyManager.LEAVE_ALL_SYSTEM_APPS_ENABLED);
                     dpm.switchUser(admin, newUser);
+
+
                 } catch (UserManager.UserOperationException e) {
                     Toast.makeText(MainActivity.this, "Failed!", Toast.LENGTH_SHORT)
                             .show();
                 }
             }
         }
+
     }
+
+
 
 }

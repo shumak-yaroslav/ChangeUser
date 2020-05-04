@@ -4,6 +4,11 @@
     <uses-policies>
 
         <force-lock/>
+        <disable-camera/>
+        <disable-keyguard-features/>
+        <set-global-proxy/>
+        <wipe-data/>
+        <encrypted-storage/>
 
     </uses-policies>
 

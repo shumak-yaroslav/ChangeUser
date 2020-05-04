@@ -7,20 +7,6 @@
     tools:context=".MainActivity">
 
 
-    <Button
-        android:id="@+id/enable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="Enable" />
 
-    <Button
-        android:id="@+id/disable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/enable"
-        android:layout_centerHorizontal="true"
-        android:text="LOCK" />
 
 </RelativeLayout>
